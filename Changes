@@ -1,0 +1,31 @@
+Revision history for Perl extension XML::Elemental.
+
+1.03 Sep 30 2004
+    - Fixed corrupted distribution file
+
+1.02 Sep 29 2004
+    - Fixed XML::Elemental::Node documentation. No code changes.
+
+1.01 Sep 21 2004
+    - Fixed bad logic in XML::Parser::Style::Elemental::ns_qualify
+
+1.00 Apr 22 2004
+    - Package name changed to XML::Elemental.
+    - Created an abstract class and three generic classes to use 
+      instead of dynamic class generation.
+    - Dynamic class generation is deprecated.
+
+0.50 Apr 17 2004
+    - Added root method to all dynamic objects.
+    - Added text_content method to dynamic Element object.
+
+0.41 Apr 04 2004
+	- Fixed bug were Character objects were not being attached to
+	  their parent if a contents array reference did not already 
+	  exist.
+	- Fixed bug were attributes were not being assigned the 
+	  namespace URI of their parent tag if a prefix was not 
+	  designated.
+
+0.40 Mar 21 2004
+	- Initial release into CPAN as XML::Parser::Style::Elemental

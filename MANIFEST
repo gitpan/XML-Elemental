@@ -1,0 +1,12 @@
+Changes
+MANIFEST
+README
+Makefile.PL
+lib/XML/Parser/Style/Elemental.pm
+lib/XML/Elemental.pm
+lib/XML/Elemental/Node.pm
+lib/XML/Elemental/Document.pm
+lib/XML/Elemental/Element.pm
+lib/XML/Elemental/Characters.pm
+test.pl
+META.yml                                Module meta-data (added by MakeMaker)
