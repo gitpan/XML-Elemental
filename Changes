@@ -1,5 +1,8 @@
 Revision history for Perl extension XML::Elemental.
 
+1.01 Sep 21 2004
+    - Fixed bad logic in XML::Parser::Style::Elemental::ns_qualify
+
 1.00 Apr 22 2004
     - Package name changed to XML::Elemental.
     - Created an abstract class and three generic classes to use 

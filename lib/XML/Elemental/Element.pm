@@ -23,10 +23,11 @@ sub new {
 
 sub text_content { 
     return '' unless defined $_[0]->{contents}->[0];
-    join('', map { ref($_) eq __PACKAGE__ ? 
+    join('', map { $_->can('text_content') ? 
         $_->text_content : $_->data } 
             @{ $_[0]->contents } );
 }
+
 
 sub name { my $this = shift; $this->stash('name',@_); }
 sub parent { my $this = shift; $this->stash('parent',@_); }

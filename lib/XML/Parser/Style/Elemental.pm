@@ -10,7 +10,7 @@ package XML::Parser::Style::Elemental;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '0.60';
+$VERSION = '0.61';
 
 sub Init { 
     my $xp = shift;
@@ -75,8 +75,8 @@ sub Final {
 
 sub ns_qualify { 
     return $_[1] unless $_[0]->{Namespaces}; 
-    my $ns=$_[0]->namespace($_[1]) || 
-            ( $_[2] ? $_[0]->namespace($_[2]) : return $_[1] );
+    my $ns = $_[0]->namespace($_[1]) || $_[0]->namespace($_[2]);
+    return $_[1] unless $ns;
     $ns=~m!(/|#)$! ? "$ns$_[1]" : "$ns/$_[1]";
 }
 
