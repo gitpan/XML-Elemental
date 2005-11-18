@@ -1,23 +1,8 @@
-# Copyright (c) 2004 Timothy Appnel
-# http://www.timaoutloud.org/
-# This code is released under the Artistic License.
-#
-# XML::Elemental::Characters - a generic characters object for use 
-# with the Elemental parser style. 
-# 
-
 package XML::Elemental::Characters;
-
 use strict;
-use XML::Elemental::Node;
+use base qw( XML::Elemental::Node );
 
-use vars qw(@ISA);
-@ISA = qw( XML::Elemental::Node );
-
-sub new { $_[0]->SUPER::new(@_); }
-
-sub data { my $this = shift; $this->stash('data',@_); }
-sub parent { my $this = shift; $this->stash('parent',@_); }
+__PACKAGE__->mk_accessors(qw( data parent ));
 
 1;
 
@@ -27,13 +12,12 @@ __END__
 
 =head1 NAME
 
-XML::Elemental::Characters - a generic characters object for use 
-with the Elemental parser style.
+XML::Elemental::Characters - a generic characters object.
 
 =head1 DESCRIPTION
 
 XML::Elemental::Characters is a subclass of L<XML::Elemental::Node>
-that is used by the Elemental parser style to represent a character
+that is used by the Elemental parser to represent character
 data.
 
 =head1 METHODS

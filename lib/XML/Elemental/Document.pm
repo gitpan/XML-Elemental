@@ -1,28 +1,15 @@
-# Copyright (c) 2004 Timothy Appnel
-# http://www.timaoutloud.org/
-# This code is released under the Artistic License.
-#
-# XML::Elemental::Document - a generic document object for use 
-# with the Elemental parser style. 
-# 
-
 package XML::Elemental::Document;
-
 use strict;
-use XML::Elemental::Node;
+use base qw( XML::Elemental::Node );
 
-use vars qw(@ISA);
-@ISA = qw( XML::Elemental::Node );
+__PACKAGE__->mk_accessors(qw( contents attributes ));
 
 sub new {
-    my $self = $_[0]->SUPER::new(@_);
-    $self->{attributes} = { };
-    $self->{contents} = [ ];
+    my $self = shift->SUPER::new(@_);
+    $self->{attributes} ||= {};
+    $self->{contents}   ||= [];
     $self;
 }
-
-sub contents { my $this = shift; $this->stash('contents',@_); }
-sub attributes { my $this = shift; $this->stash('attributes',@_); }
 
 1;
 
@@ -32,13 +19,12 @@ __END__
 
 =head1 NAME
 
-XML::Elemental::Document - a generic document object for use 
-with the Elemental parser style.
+XML::Elemental::Document - a generic document object.
 
 =head1 DESCRIPTION
 
 XML::Elemental::Document is a subclass of L<XML::Elemental::Node>
-that is used by the Elemental parser style to represent the document
+that can be used with the Elemental parser to represent the document
 (root) node.
 
 =head1 METHODS

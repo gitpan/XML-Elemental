@@ -1,4 +1,4 @@
-XML::Elemental is an XML::Parser style and generic classes package
+XML::Elemental is a SAX-driven parser and generic classes package
 for simplistic and perlish handling of XML data.
 
 INSTALLATION
@@ -13,13 +13,15 @@ To install this module type the following:
 DEPENDENCIES
 
 This module requires these other modules and libraries: 
-	XML::Parser 
+	XML::SAX
+	Class::Accessor
+	Test::More
 
 COPYRIGHT AND LICENSE
 
 The software is released under the Artistic License. The terms of
 the Artistic License are described at
 http://www.perl.com/language/misc/Artistic.html. Except where
-otherwise noted, XML::Elemental is Copyright 2004, Timothy Appnel,
-cpan@timaoutloud.org. All rights reserved.
+otherwise noted, XML::Elemental is Copyright 2004-2005, Timothy Appnel,
+tima@cpan.org. All rights reserved.
 

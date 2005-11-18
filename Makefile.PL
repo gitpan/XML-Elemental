@@ -1,8 +1,6 @@
 use ExtUtils::MakeMaker;
-# See lib/ExtUtils/MakeMaker.pm for details of how to influence
-# the contents of the Makefile that is written.
 WriteMakefile(
     'NAME'		=> 'XML::Elemental',
-    'VERSION_FROM'	=> 'lib/XML/Elemental.pm', # finds $VERSION
-    'PREREQ_PM'		=> { XML::Parser }, # e.g., Module::Name => 1.1
+    'VERSION_FROM'	=> 'lib/XML/Elemental.pm',
+    'PREREQ_PM'		=> { XML::SAX=>0, Class::Accessor=>0, Test::More=>0 }, 
 );

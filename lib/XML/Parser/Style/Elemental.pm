@@ -1,125 +1,81 @@
-# Copyright (c) 2004 Timothy Appnel
+# Copyright (c) 2004-2005 Timothy Appnel
 # http://www.timaoutloud.org/
 # This code is released under the Artistic License.
 #
-# XML::Parser::Style::Elemental - A flexible and extensible object 
-# tree style for XML::Parser.
-# 
+# XML::Parser::Style::Elemental - A flexible and extensible object
+# tree style for XML::Parser. DEPRECATED.
+#
 
 package XML::Parser::Style::Elemental;
-
 use strict;
-use vars qw($VERSION);
-$VERSION = '0.61';
+use warnings;
 
-sub Init { 
+use vars qw($VERSION);
+$VERSION = '0.72';
+
+sub Init {
     my $xp = shift;
-    $xp->{Elemental} ||= { };
+    $xp->{Elemental} ||= {};
     my $e = $xp->{Elemental};
-    if ($xp->{Pkg} eq 'main') {    
-        $e->{Document} ||= 'XML::Elemental::Document';
-        $e->{Element} ||= 'XML::Elemental::Element';
+    if ($xp->{Pkg} eq 'main' || !defined $xp->{Pkg}) {
+        $e->{Document}   ||= 'XML::Elemental::Document';
+        $e->{Element}    ||= 'XML::Elemental::Element';
         $e->{Characters} ||= 'XML::Elemental::Characters';
     }
-    map { $e->{$_} ? 
-        eval "use $e->{$_};" : 
-            $xp->compile_class($xp->{Pkg},$_) }
-                qw( Document Element Characters );
-    $xp->{__doc} = $e->{Document}->new();
-    push( @{ $xp->{__stack} }, $xp->{__doc} );
+    map { eval "use $e->{$_}" } qw( Document Element Characters);
+    $xp->{__doc} = $e->{Document}->new;
+    push(@{$xp->{__stack}}, $xp->{__doc});
 }
 
 sub Start {
-    my $xp = shift;
-    my $tag = shift;
+    my $xp   = shift;
+    my $tag  = shift;
     my $node = $xp->{Elemental}->{Element}->new();
-    $node->name( ns_qualify($xp,$tag) );
-    $node->parent( $xp->{__stack}->[-1] );
+    $node->name(ns_qualify($xp, $tag));
+    $node->parent($xp->{__stack}->[-1]);
     if (@_) {
-        $node->attributes({});        
-        while (@_) { 
-            my($key,$value) = (shift @_,shift @_);
-            $node->attributes->{ns_qualify($xp,$key,$tag)} = $value 
+        $node->attributes({});
+        while (@_) {
+            my ($key, $value) = (shift @_, shift @_);
+            $node->attributes->{ns_qualify($xp, $key, $tag)} = $value;
         }
     }
-    $node->parent->contents([]) unless $node->parent->contents; 
- 	push( @{ $node->parent->contents }, $node);
-	push( @{ $xp->{__stack} }, $node);
+    $node->parent->contents([]) unless $node->parent->contents;
+    push(@{$node->parent->contents}, $node);
+    push(@{$xp->{__stack}}, $node);
 }
 
 sub Char {
-    my ($xp,$data)=@_;
+    my ($xp, $data) = @_;
     my $parent = $xp->{__stack}->[-1];
     $parent->contents([]) unless $parent->contents;
     my $contents = $parent->contents();
-    my $class = $xp->{Elemental}->{Characters}; 
+    my $class    = $xp->{Elemental}->{Characters};
     unless ($contents && ref($contents->[-1]) eq $class) {
-        return if ($xp->{Elemental}->{No_Whitespace} && $data!~/\S/);
+        return if ($xp->{Elemental}->{No_Whitespace} && $data !~ /\S/);
         my $node = $class->new();
         $node->parent($parent);
         $node->data($data);
-        push ( @{ $contents }, $node );
+        push(@{$contents}, $node);
     } else {
         my $d = $contents->[-1]->data() || '';
-        return if ( $xp->{Elemental}->{No_Whitespace} && $d!~/\S/ );
+        return if ($xp->{Elemental}->{No_Whitespace} && $d !~ /\S/);
         $contents->[-1]->data("$d$data");
     }
 }
 
-sub End { pop( @{ $_[0]->{__stack} } ) }
+sub End { pop(@{$_[0]->{__stack}}) }
 
 sub Final {
     delete $_[0]->{__stack};
-    $_[0]->{__doc}; 
+    $_[0]->{__doc};
 }
 
-sub ns_qualify { 
-    return $_[1] unless $_[0]->{Namespaces}; 
+sub ns_qualify {
+    return $_[1] unless $_[0]->{Namespaces};
     my $ns = $_[0]->namespace($_[1]) || $_[0]->namespace($_[2]);
     return $_[1] unless $ns;
-    $ns=~m!(/|#)$! ? "$ns$_[1]" : "$ns/$_[1]";
-}
-
-#--- Dynamic Class Factory. Deprecated.
-{
-    my $methods = { 
-            # All get root methods through special handling
-            # Element gets a text_content method also through 
-            # special handling
-            Document => [ qw(contents) ],
-            Element => [ qw(name parent contents attributes) ], 
-            Characters => [ qw(parent data) ]
-    };
-    
-    sub compile_class {    
-        my($xp,$pkg,$type) = @_;
-        my $class = "$pkg::$type";
-        no strict 'refs';
-        *{"${class}::new"} = sub { bless { }, $class };
-        foreach my $field ( @{$methods->{$type}} ) {
-            *{"${class}::${field}"} = 
-                sub { 
-                    $_[0]->{$field} = $_[1] if defined $_[1];
-                    $_[0]->{$field};
-                };
-        }
-        *{"${class}::root"} = 
-            sub { 
-                my $o=shift; 
-                while($o->can('parent') && $o->parent) { $o = $o->parent }
-                $o; 
-            };            
-        if ($type eq 'Element') {
-            *{"${class}::text_content"} = 
-                sub { 
-                    return '' unless ref($_[0]->contents);
-                    join('', map { ref($_) eq $class ? 
-                                $_->text_content : $_->data } 
-                                    @{ $_[0]->contents } );
-                };
-        }
-        $xp->{Elemental}->{$type} = $class;
-    }
+    $ns =~ m!(/|#)$! ? "$ns$_[1]" : "$ns/$_[1]";
 }
 
 1;
@@ -131,14 +87,14 @@ __END__
 =head1 NAME
 
 XML::Parser::Style::Elemental - A flexible and extensible object
-tree style for XML::Parser.
+tree style for XML::Parser. DEPRECATED.
 
 =head1 SYNOPSIS
 
  #!/usr/bin/perl -w
  use XML::Parser;
  use Data::Dumper;
- my $p = XML::Parser->new( Style => 'Elemental' );
+ my $p   = XML::Parser->new( Style => 'Elemental' );
  my $doc = <<DOC;
  <foo>
      <bar key="value">The world is foo enough.</bar>
@@ -146,10 +102,9 @@ tree style for XML::Parser.
  DOC
  my ($e) = $p->parse($doc);
  print Data::Dumper->Dump( [$e] );
- 
  my $test_node = $e->contents->[0];
- print "root: ".$test_node->root." is ".$e."\n";
- print "text content of ".$test_node->name."\n";
+ print "root: " . $test_node->root . " is " . $e . "\n";
+ print "text content of " . $test_node->name . "\n";
  print $test_node->text_content;
 
 =head1 DESCRIPTION
@@ -183,15 +138,16 @@ classes provided you can register your own with Elemental. Like the
 Elemental class types, the option keys are C<Document>, C<Element>
 and C<Characters>.
 
- my $p = XML::Parser->new(  Style => 'Elemental',
-                            Namespace => 1,
-                            Elemental=>{
-                                    Document=>'Foo::Doc',
-                                    Element=>'Foo::El',
-                                    Characters=>'Foo::Chars'
-                            }
-                         );
-
+ my $p = XML::Parser->new(
+                           Style     => 'Elemental',
+                           Namespace => 1,
+                           Elemental => {
+                                          Document   => 'Foo::Doc',
+                                          Element    => 'Foo::El',
+                                          Characters => 'Foo::Chars'
+                           }
+ );
+ 
 XML::Elemental provides a collection of very simple generic objects
 that can be subclassed to add more functionality while continuing
 to use the Elemental parser style. Developers are free to create
@@ -212,23 +168,6 @@ formatting XML to be human readable.
 This method is a bit crude a simplistic. Eventually this module
 will support the C<xml:space> attribute and related functionality
 to processing whitespace.
-
-=head2 DEPRECATED: USING DYNAMIC CLASS OBJECTS
-
-Originally this parser style used a dynamic class factory to create
-objects with accessor methods if other classes were not specified.
-Similar to the Objects style these dynamic classes were blessed
-into the package set with the C<Pkg> option.
-
-Here we create a parser that uses Elemental to create Document,
-Element and Characters objects in the E package.
-
- my $p = XML::Parser->new( Style => 'Elemental', Pkg => 'E' );
-
-This functionality has been deprecated in favor of using the static
-classes in XML::Elemental introduced in version 0.60. This change
-was made to clarify and better support the extensibility of the
-parser style via subclassing and the like.
 
 =head1 SEE ALSO
 
