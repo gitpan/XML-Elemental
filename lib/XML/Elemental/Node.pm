@@ -2,12 +2,22 @@ package XML::Elemental::Node;
 use strict;
 use base qw( Class::Accessor::Fast );
 
-sub new { bless $_[1] || {}, $_[0]; }
+sub new { bless {}, $_[0]; }
 
 sub root {
     my $e = shift;
     while ($e->{parent}) { $e = $e->{parent} }
-    $e;
+    return $e;
+}
+
+sub DESTROY {
+    my $self = shift;
+    if ($self->{contents} && ref $self->{contents} eq 'ARRAY') {
+        for (@{$self->{contents}}) {
+            $_->DESTROY if $_ && $_->isa('XML::Elemental::Node');
+        }
+    }
+    %$self = ();      # safety first.
 }
 
 1;

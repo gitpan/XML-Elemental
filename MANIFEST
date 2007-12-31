@@ -9,11 +9,11 @@ lib/XML/Elemental.pm
 lib/XML/Parser/Style/Elemental.pm
 Makefile.PL
 MANIFEST
-META.yml
 README
-t/00-main.t
-t/01-subclass.t
+t/10-main.t
+t/11-subclass.t
 t/lib/T/Characters.pm
 t/lib/T/Document.pm
 t/lib/T/Element.pm
 t/test.xml
+META.yml                                 Module meta-data (added by MakeMaker)

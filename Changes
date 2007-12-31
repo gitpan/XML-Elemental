@@ -1,5 +1,17 @@
 Revision history for Perl extension XML::Elemental.
 
+2.01  Dec 31 2007
+    - POTENTIAL BREAK: Rearranged code to address the
+      boneheaded oversight of using a circular reference in
+      the parse tree and failing to breaking up. This caused
+      memory to leak. The change involved making
+      XML::Elemental::Document a subclass of
+      Object::Destroyer that works as a proxy to the real
+      object implementation. This *should* be entirely
+      transparent to existing code; however, there is the
+      possibility that I overlooked some usage scenario that
+      this change will break.
+
 2.0  Nov 16 2005
     - Convert to SAX-based system. (XML::Elemental::SAXHandler
       added to the distribution.)

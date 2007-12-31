@@ -21,7 +21,7 @@ open my $fh, 'test.xml';
 my $doc = $p->parse_file($fh);
 ok($doc, 'parse file return');
 
-ok(ref($doc) eq 'T::Document', 'parse_file returns subclass document object');
+ok(ref $doc eq 'T::Document', 'parse_file returns subclass document object');
 my $root = $doc->contents->[0];
 ok(ref($root) eq 'T::Element', 'root element is T::Element');
 my $i = 1;

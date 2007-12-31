@@ -20,6 +20,8 @@ map { use_ok($_) }
   );
 
 #--- makes sure constructors works.
+
+# ok(ref(XML::Elemental::Document->new) eq 'Object::Destroyer', 'XML::Elemental::Document constructor');
 map { ok(ref($_->new) eq $_, "$_ constructor") }
   qw( 
     XML::Elemental::SAXHandler XML::Elemental::Node XML::Elemental::Document
@@ -34,7 +36,7 @@ ok($p, 'XML::Elemental parser');
 open my $fh, 'test.xml';
 my $doc = $p->parse_file($fh);
 ok($doc, 'parse file return');
-ok(ref($doc) eq 'XML::Elemental::Document',
+ok(ref $doc eq 'XML::Elemental::Document',
     'parse_file returns document object');
 
 #--- root tests
@@ -80,5 +82,6 @@ ok($str eq "\n    foo\n", 'text content returns proper character string');
 
 #--- root test
 $i = 1;    # reset
-map { ok($doc eq $_->root, 'root test ' . $i++) }
+my $obj = $doc->{object};
+ok($obj eq $_->root, 'root test ' . $i++." $obj ".$_->root) for
   ($c, $alt_default, $inline, $namespaced, $default, $root);

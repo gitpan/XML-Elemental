@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = '0.1';
+$VERSION = '0.11';
 
 use base qw( XML::SAX::Base );
 
@@ -64,6 +64,12 @@ sub end_element { pop(@{$_[0]->{__stack}}) }
 
 sub end_document {
     delete $_[0]->{__stack};
+    {    # hack to re-adjust from circular reference breaking.
+        $_[0]->{__doc}->{object}->{contents} =
+          delete $_[0]->{__doc}->{contents};
+        $_->parent($_[0]->{__doc}->{object})
+          for @{$_[0]->{__doc}->{object}->{contents}};
+    }
     $_[0]->{__doc};
 }
 

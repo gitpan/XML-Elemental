@@ -5,17 +5,18 @@ use base qw( XML::Elemental::Node );
 __PACKAGE__->mk_accessors(qw( name parent contents attributes ));
 
 sub new {
-    my $self = shift->SUPER::new(@_);
+    my $self = bless {}, $_[0];
     $self->{attributes} ||= {};
     $self->{contents}   ||= [];
-    $self;
+    return $self;
 }
 
 sub text_content {
     return '' unless defined $_[0]->{contents};
-    join('',
-         map { $_->can('text_content') ? $_->text_content : $_->data }
-           @{$_[0]->contents});
+    return
+      join('',
+           map { $_->can('text_content') ? $_->text_content : $_->data }
+             @{$_[0]->contents});
 }
 
 1;

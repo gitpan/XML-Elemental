@@ -1,14 +1,19 @@
 package XML::Elemental::Document;
 use strict;
+use base 'Object::Destroyer';
+
+sub new { $_[0]->SUPER::new(XML::Elemental::doc->new) }
+
+package XML::Elemental::doc;
 use base qw( XML::Elemental::Node );
 
 __PACKAGE__->mk_accessors(qw( contents attributes ));
 
 sub new {
-    my $self = shift->SUPER::new(@_);
+    my $self = bless {}, $_[0];
     $self->{attributes} ||= {};
     $self->{contents}   ||= [];
-    $self;
+    return $self;
 }
 
 1;
