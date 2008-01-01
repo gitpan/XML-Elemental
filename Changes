@@ -1,5 +1,11 @@
 Revision history for Perl extension XML::Elemental.
 
+2.011 Jan 01 2008
+    - Nothing new. Just a distribution sans the %$!*#~@ OS X
+      resource files. (Note to self add 'export
+      COPYFILE_DISABLE=1' in .bash_profile on all Leopard
+      machines.)
+      
 2.01  Dec 31 2007
     - POTENTIAL BREAK: Rearranged code to address the
       boneheaded oversight of using a circular reference in
