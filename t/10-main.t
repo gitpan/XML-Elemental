@@ -82,6 +82,5 @@ ok($str eq "\n    foo\n", 'text content returns proper character string');
 
 #--- root test
 $i = 1;    # reset
-my $obj = $doc->{object};
-ok($obj eq $_->root, 'root test ' . $i++." $obj ".$_->root) for
+ok($doc eq $_->root, 'root test ' . $i++." $doc ".$_->root) for
   ($c, $alt_default, $inline, $namespaced, $default, $root);

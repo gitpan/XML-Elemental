@@ -15,14 +15,15 @@ DEPENDENCIES
 This module requires these other modules and libraries: 
 	XML::SAX
 	Class::Accessor
+    Scalar::Util 
 	Test::More
-	Object::Destroyer
+	Task::Weaken 1.02 # install only
 
 COPYRIGHT AND LICENSE
 
 The software is released under the Artistic License. The terms of
 the Artistic License are described at
 http://www.perl.com/language/misc/Artistic.html. Except where
-otherwise noted, XML::Elemental is Copyright 2004-2007, Timothy Appnel,
+otherwise noted, XML::Elemental is Copyright 2004-2008, Timothy Appnel,
 tima@cpan.org. All rights reserved.
 

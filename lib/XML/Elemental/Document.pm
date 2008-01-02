@@ -1,20 +1,22 @@
 package XML::Elemental::Document;
 use strict;
-use base 'Object::Destroyer';
-
-sub new { $_[0]->SUPER::new(XML::Elemental::doc->new) }
-
-package XML::Elemental::doc;
 use base qw( XML::Elemental::Node );
 
-__PACKAGE__->mk_accessors(qw( contents attributes ));
+use Scalar::Util qw(weaken);
 
-sub new {
-    my $self = bless {}, $_[0];
-    $self->{attributes} ||= {};
-    $self->{contents}   ||= [];
-    return $self;
+sub root_element { $_[0]->{contents} }
+
+sub contents {
+    if (@_ > 1) {
+        $_[0]->{contents} = ref eq 'ARRAY' ? $_[1]->[0] : $_[1];
+        weaken($_[0]->{contents}->{parent} = $_[0]);
+    }
+    return [ $_[0]->{contents} ];
 }
+
+sub attributes { } # deprecated. documents never have attributes.
+
+sub DESTROY { $_[0]->{contents}->DESTROY if $_[0]->{contents} } # starts circular reference teardown
 
 1;
 

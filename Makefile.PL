@@ -5,7 +5,8 @@ WriteMakefile(
     'PREREQ_PM'		=> { 
         XML::SAX=>0, 
         Class::Accessor=>0, 
-        Test::More=>0, 
-        Object::Destroyer=>2 
+	    Scalar::Util=>0,
+        Test::More=>0,
+	    Task::Weaken=>1.02, # install only
     }, 
 );

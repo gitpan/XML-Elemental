@@ -12,10 +12,8 @@ sub root {
 
 sub DESTROY {
     my $self = shift;
-    if ($self->{contents} && ref $self->{contents} eq 'ARRAY') {
-        for (@{$self->{contents}}) {
-            $_->DESTROY if $_ && $_->isa('XML::Elemental::Node');
-        }
+    for (@{$self->{contents}}) {
+        $_->DESTROY if $_ && $_->isa('XML::Elemental::Node');
     }
     %$self = ();      # safety first.
 }

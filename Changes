@@ -1,5 +1,16 @@
 Revision history for Perl extension XML::Elemental.
 
+2.012 Jan 02 2008
+    - I found a break in 2.01 whereby the root method would 
+      return the object being wrapped and not the proxy object.
+      Small, but significant enough break that I decided to reverse 
+      changes made in 2.01. No more proxy object and
+      Object::Destroyer. Instead I'm using the weaken method in
+      Scalar::Util making it and Task::Weaken new
+      dependencies as of this release. Weak reference was a
+      new feature in Perl 5.6.0 thereby making that the required
+      minimum version.
+
 2.011 Jan 01 2008
     - Nothing new. Just a distribution sans the %$!*#~@ OS X
       resource files. (Note to self add 'export
