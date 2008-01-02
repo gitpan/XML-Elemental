@@ -1,5 +1,9 @@
 Revision history for Perl extension XML::Elemental.
 
+2.02  Jan 02 2008
+    - Nothing new. Just the intended version number for the last 
+      release.
+
 2.012 Jan 02 2008
     - I found a break in 2.01 whereby the root method would 
       return the object being wrapped and not the proxy object.

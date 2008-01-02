@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = '2.012';
+$VERSION = '2.02';
 
 use XML::SAX;
 

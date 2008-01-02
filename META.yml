@@ -1,7 +1,7 @@
 # http://module-build.sourceforge.net/META-spec.html
 #XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
 name:         XML-Elemental
-version:      2.012
+version:      2.02
 version_from: lib/XML/Elemental.pm
 installdirs:  site
 requires:
