@@ -12,6 +12,7 @@ MANIFEST
 README
 t/10-main.t
 t/11-subclass.t
+t/12-ancestory.t
 t/lib/T/Characters.pm
 t/lib/T/Document.pm
 t/lib/T/Element.pm

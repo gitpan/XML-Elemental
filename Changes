@@ -1,5 +1,14 @@
 Revision history for Perl extension XML::Elemental.
 
+2.1   Jan 06 2008
+    - Dropped Class::Accessor dependency in favor of our own simple 
+      lighter weight accessors. Less is more. ;)
+    - Added in_element and ancestors methods to all nodes. 
+    - Added the root_element method to XML::Elemental::Document.
+    - Added tests for root_element, in_element and ancestors.
+    - Fixed contents and attributes so they absolutely will return an
+      empty ARRAY or HASH reference (respectively) if not set.
+
 2.02  Jan 02 2008
     - Nothing new. Just the intended version number for the last 
       release.

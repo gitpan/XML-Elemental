@@ -8,7 +8,7 @@ use warnings;
 use constant E => 'XML::Elemental::Element';
 use constant C => 'XML::Elemental::Characters';
 
-use Test::More tests => 44;
+use Test::More tests => 45;
 
 #--- compiles?
 map { use_ok($_) }
@@ -41,8 +41,10 @@ ok(ref $doc eq 'XML::Elemental::Document',
 
 #--- root tests
 my $root;
-ok($root = $doc->contents->[0], 'find root');
-ok($root->name eq '{}foo', 'root is foo');
+ok($root = $doc->contents->[0], 'find root element');
+$doc->contents([$root]);
+ok($root = $doc->contents->[0], 'set root element as ARRAY ref');
+ok($root->name eq '{}foo', 'root element is foo');
 
 #--- children test
 my @children = @{$root->contents};

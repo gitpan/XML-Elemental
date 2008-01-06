@@ -1,6 +1,5 @@
 package XML::Elemental::Node;
 use strict;
-use base qw( Class::Accessor::Fast );
 
 sub new { bless {}, $_[0]; }
 
@@ -10,12 +9,33 @@ sub root {
     return $e;
 }
 
+sub ancestors {
+    my $e = shift;
+    my @a;
+    while ($e->{parent}) {
+        $e = $e->{parent};
+        push @a, $e;
+    }
+    return @a;
+}
+
+sub in_element {
+    my ($e, $a) = @_;
+    while ($e->{parent}) {
+        $e = $e->{parent};
+        return 1 if $e == $a;
+    }
+    return 0;
+}
+
 sub DESTROY {
     my $self = shift;
-    for (@{$self->{contents}}) {
-        $_->DESTROY if $_ && $_->isa('XML::Elemental::Node');
+    if ($self->{contents}) {
+        for (@{$self->{contents}}) {
+            $_->DESTROY if $_ && $_->isa('XML::Elemental::Node');
+        }
     }
-    %$self = ();      # safety first.
+    %$self = ();    # safety first.
 }
 
 1;

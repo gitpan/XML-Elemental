@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = '2.02';
+$VERSION = '2.1';
 
 use XML::SAX;
 
@@ -80,7 +80,7 @@ XML::Elemental default classes can be used.
 
 =head1 DEPENDENCIES
 
-L<XML::SAX>, L<Class::Accessor>, L<Scalar::Util>
+L<XML::SAX>, L<Scalar::Util>
 
 =head1 SEE ALSO
 
