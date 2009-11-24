@@ -42,7 +42,7 @@ sub Start {
     }
     $node->parent->contents([]) unless $node->parent->contents;
     push(@{$node->parent->contents}, $node);
-    push(@{$xp->{__stack}}, $node);
+    push(@{$xp->{__stack}},          $node);
 }
 
 sub Char {
@@ -57,7 +57,8 @@ sub Char {
         $node->parent($parent);
         $node->data($data);
         push(@{$contents}, $node);
-    } else {
+    }
+    else {
         my $d = $contents->[-1]->data() || '';
         return if ($xp->{Elemental}->{No_Whitespace} && $d !~ /\S/);
         $contents->[-1]->data("$d$data");

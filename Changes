@@ -1,5 +1,8 @@
 Revision history for Perl extension XML::Elemental.
 
+2.11  Nov 24 2009
+    - Fixed another circular reference that was causing memeory leaks.
+
 2.1   Jan 06 2008
     - Dropped Class::Accessor dependency in favor of our own simple 
       lighter weight accessors. Less is more. ;)

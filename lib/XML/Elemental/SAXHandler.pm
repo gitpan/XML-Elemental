@@ -10,9 +10,9 @@ use base qw( XML::SAX::Base );
 use Scalar::Util qw(weaken);
 
 my %defaults = (
-                Document   => 'XML::Elemental::Document',
-                Element    => 'XML::Elemental::Element',
-                Characters => 'XML::Elemental::Characters'
+    Document   => 'XML::Elemental::Document',
+    Element    => 'XML::Elemental::Element',
+    Characters => 'XML::Elemental::Characters'
 );
 
 # We work with direct references to the underlying HASH data
@@ -47,7 +47,7 @@ sub start_element {
         $node->{attributes} = \%attr;
     }
     push(@{$node->{parent}->{contents}}, $node);
-    push(@{$self->{__stack}}, $node);
+    push(@{$self->{__stack}},            $node);
 }
 
 sub characters {
@@ -60,7 +60,8 @@ sub characters {
         $node->{parent} = $parent;
         $node->{data}   = $data->{Data};
         push(@{$contents}, $node);
-    } else {
+    }
+    else {
         my $d = $contents->[-1]->data || '';
         $contents->[-1]->data($d . $data->{Data});
     }

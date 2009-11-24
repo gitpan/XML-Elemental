@@ -11,10 +11,9 @@ sub new {
 
 sub text_content {
     return '' unless defined $_[0]->{contents};
-    return
-      join('',
-           map { $_->can('text_content') ? $_->text_content : $_->data }
-             @{$_[0]->contents});
+    return join('',
+        map { $_->can('text_content') ? $_->text_content : $_->data }
+          @{$_[0]->contents});
 }
 
 sub name {

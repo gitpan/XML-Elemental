@@ -14,7 +14,7 @@ DEPENDENCIES
 
 This module requires these other modules and libraries: 
 	XML::SAX
-    Scalar::Util 
+        Scalar::Util 
 	Test::More
 	Task::Weaken 1.02 # install only
 
